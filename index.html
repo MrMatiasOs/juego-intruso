@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>¿Cuál es el intruso?</title>
+  <link rel="stylesheet" href="./styles.css?v=1"/>
+</head>
+<body>
+  <main class="wrap" aria-labelledby="titulo">
+    <h1 id="titulo">¿Cuál es el intruso?</h1>
+    <p class="intro">Elige el elemento que no pertenece al grupo. Sin límite de tiempo.</p>
+
+    <section class="controles">
+      <label for="rondas">Rondas:</label>
+      <select id="rondas"><option>6</option><option selected>8</option><option>10</option></select>
+
+      <label for="opciones">Opciones:</label>
+      <select id="opciones"><option>3</option><option selected>4</option><option>5</option></select>
+
+      <label for="tamano">Tamaño:</label>
+      <select id="tamano"><option selected>grande</option><option>muy-grande</option></select>
+
+      <button id="btnComenzar" class="btn principal">Comenzar</button>
+      <button id="btnReiniciar" class="btn secundario" hidden>Volver a jugar</button>
+      <button id="btnPista" class="btn info" hidden>Mostrar pista</button>
+    </section>
+
+    <section id="juego" class="juego" aria-live="polite"></section>
+    <p class="estado">Progreso: <span id="progreso">0/0</span> · Aciertos: <span id="aciertos">0</span></p>
+  </main>
+
+  <script src="./app.js?v=1" defer></script>
+</body>
+</html>
