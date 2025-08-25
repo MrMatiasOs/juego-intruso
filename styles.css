@@ -189,3 +189,30 @@ select{
 
 /* En claro, asegurar buen contraste del link */
 [data-theme="light"] .mini-credit a{ color:#0f172a }
+
+/* Habilitamos consultas por contenedor */
+.controles, .juego { container-type: inline-size; }
+
+/* Si el contenedor de .opciones tiene suficiente ancho → 2 columnas */
+@container (min-width: 560px){
+  .opciones{ grid-template-columns: 1fr 1fr; }
+}
+
+/* Por si aparece una palabra muy larga o un término compuesto */
+.opciones button{
+  white-space: normal;
+  overflow-wrap: anywhere; /* evita que “empuje” el layout */
+}
+
+/* Si algún día agregás imágenes en tarjetas/modales */
+.tarjeta img, .modal-card img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.wrap{
+  max-width: 900px;
+  width: min(900px, calc(100% - 2*var(--space)));
+  margin: 0 auto;
+  padding: var(--space);
+}
