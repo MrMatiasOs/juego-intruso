@@ -210,3 +210,33 @@ document.addEventListener('DOMContentLoaded', () => {
   aboutModal?.addEventListener('click', (e)=>{ if(e.target===aboutModal) closeAbout(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAbout(); });
 });
+
+// ---------- Tema claro/oscuro ----------
+const themeBtn   = document.getElementById('themeToggle');
+const metaTheme  = document.querySelector('meta[name="theme-color"]');
+
+function applyTheme(mode){
+  document.documentElement.setAttribute('data-theme', mode);
+  if(themeBtn){
+    const isDark = (mode === 'dark');
+    themeBtn.setAttribute('aria-pressed', String(isDark));
+    themeBtn.textContent = isDark ? '🌙 Oscuro' : '🌞 Claro';
+  }
+  if(metaTheme){ metaTheme.setAttribute('content', mode==='dark' ? '#0b0b0b' : '#ffffff'); }
+}
+
+(function initTheme(){
+  let mode = 'dark';
+  try{
+    mode = localStorage.getItem('theme') ||
+           (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }catch{}
+  applyTheme(mode);
+})();
+
+themeBtn?.addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('theme', next); }catch{}
+  applyTheme(next);
+});

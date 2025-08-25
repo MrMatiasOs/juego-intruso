@@ -1,12 +1,48 @@
+/* ======== Tema y contraste accesible ======== */
 :root{
-  /* tipografía y espacios fluidos */
+  color-scheme: light dark;            /* deja que el SO sugiera, pero mandamos con data-theme */
   --fs-base: clamp(16px, 1.1vw + 12px, 19px);
   --space: clamp(10px, 1vw + 6px, 16px);
 
-  --bg:#0b0b0b; --fg:#f5f5f5; --card:#171717; --muted:#cfcfcf;
-  --accent:#ffd54a; --accent2:#7fd1b9; --info:#89a7ff;
-  --ok:#7fd1b9; --bad:#ff7a7a; --focus:3px solid var(--accent);
+  /* Dark (por defecto) */
+  --bg:#0b0b0b; --fg:#f5f5f5; --muted:#cfcfcf;
+  --card:#171717; --border:#2a2a2a;
+  --opt-bg:#222; --opt-border:#333;
+
+  /* Botones (fondo claro para alto contraste interno) */
+  --btn-primary-bg:#ffd54a;  --btn-primary-fg:#000;    /* amarillo accesible */
+  --btn-sec-bg:#7fd1b9;      --btn-sec-fg:#000;        /* teal claro */
+  --btn-info-bg:#60a5fa;     --btn-info-fg:#000;       /* azul claro */
+
+  /* Estados/feedback (altamente contrastados) */
+  --ok:#34d399;   /* verde claro sobre fondo oscuro */
+  --bad:#f87171;  /* rojo claro sobre fondo oscuro */
+
+  /* Progreso y foco */
+  --progress:#ffd54a;
+  --focus-color:#ffd54a;     /* visible en dark */
 }
+
+/* Light theme overrides: alto contraste en claro */
+[data-theme="light"]{
+  --bg:#ffffff; --fg:#111111; --muted:#374151;
+  --card:#ffffff; --border:#dddddd;
+  --opt-bg:#ffffff; --opt-border:#cfcfcf;
+
+  /* Botones: mismo esquema, contrastan en claro también */
+  --btn-primary-bg:#ffd54a;  --btn-primary-fg:#111;
+  --btn-sec-bg:#14b8a6;      --btn-sec-fg:#fff;   /* teal 500 con texto blanco */
+  --btn-info-bg:#2563eb;     --btn-info-fg:#fff;  /* azul 600 con texto blanco */
+
+  /* Feedback: tonos oscuros para legibilidad en blanco */
+  --ok:#047857;   /* emerald-800 */
+  --bad:#b91c1c;  /* red-700 */
+
+  --progress:#f59e0b;        /* amber-500 visible en claro */
+  --focus-color:#1d4ed8;     /* azul fuerte para outline en claro */
+}
+
+/* ======== Base ======== */
 *{box-sizing:border-box}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
@@ -18,7 +54,6 @@ body{
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Contenedor más contenido en desktop */
 .wrap{
   max-width: 900px;
   width: min(900px, calc(100% - 2*var(--space)));
@@ -28,78 +63,69 @@ body{
 
 .header h1{
   font-size: clamp(1.6rem, 1.6vw + 1rem, 2.1rem);
-  margin:.5rem 0;
+  margin:.5rem 0
 }
 .intro{margin:0 0 var(--space); color:var(--fg)}
 
-/* Controles: 1 columna en móvil; 2 columnas ordenadas en desktop */
 .controles{
-  display: grid;
-  gap: .6rem 1rem;
-  grid-template-columns: 1fr;       /* móvil */
-  align-items: center;
-  margin: var(--space) 0;
+  display:grid; gap:.6rem 1rem; align-items:center;
+  grid-template-columns: 1fr; margin: var(--space) 0;
 }
-
-/* etiquetas arriba del select (coherente en todas las vistas) */
 label{opacity:.95; display:block}
 select{
   background:var(--card); color:var(--fg);
-  border:1px solid #333; padding:.6rem; border-radius:.6rem; width:100%;
+  border:1px solid var(--border); padding:.6rem; border-radius:.6rem; width:100%;
 }
 
-/* botones grandes y cómodos */
 .btn{
   border:0; border-radius:.9rem; cursor:pointer; font-weight:700;
   padding:.8rem 1rem; min-height:48px;
 }
-.btn.principal{background:var(--accent); color:#000}
-.btn.secundario{background:var(--accent2); color:#000}
-.btn.info{background:var(--info); color:#000}
-.btn:focus-visible{outline:var(--focus)}
+.btn.principal{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+.btn.secundario{ background:var(--btn-sec-bg);   color:var(--btn-sec-fg); }
+.btn.info{       background:var(--btn-info-bg);  color:var(--btn-info-fg); }
+.btn:focus-visible{ outline:3px solid var(--focus-color); outline-offset:2px; }
 
-/* Carta y opciones */
 .juego{display:grid; gap:var(--space)}
 .tarjeta{
-  background:var(--card); border:1px solid #2a2a2a;
+  background:var(--card); border:1px solid var(--border);
   border-radius:1rem; padding:var(--space)
 }
 .pregunta{font-size:clamp(1.2rem, 1.1vw + 1rem, 1.6rem); margin:0 0 .5rem}
 
-/* Opciones: 1 columna en móvil; 2 columnas en pantallas amplias */
 .opciones{
   display:grid; gap:.6rem;
-  grid-template-columns: 1fr;              /* móvil */
+  grid-template-columns: 1fr;
 }
-@media (min-width: 820px){
-  .opciones{ grid-template-columns: 1fr 1fr; }  /* desktop */
-}
+@media (min-width: 820px){ .opciones{ grid-template-columns: 1fr 1fr; } }
+
 .opciones button{
-  text-align:left; background:#222; color:var(--fg);
-  border:2px solid #333; border-radius:.8rem;
+  text-align:left; background:var(--opt-bg); color:var(--fg);
+  border:2px solid var(--opt-border); border-radius:.8rem;
   padding:1rem; font-size:1.05rem; line-height:1.35; cursor:pointer; width:100%;
 }
-.opciones button:focus-visible{outline:var(--focus)}
+.opciones button:focus-visible{ outline:3px solid var(--focus-color); outline-offset:2px; }
 .opciones button.correcta.marcada{
   border-color:var(--ok);
-  box-shadow:0 0 0 2px #000, inset 0 0 0 2px var(--ok)
+  box-shadow:0 0 0 2px transparent, inset 0 0 0 2px var(--ok)
 }
 .opciones button.incorrecta.marcada{
   border-color:var(--bad);
-  box-shadow:0 0 0 2px #000, inset 0 0 0 2px var(--bad)
+  box-shadow:0 0 0 2px transparent, inset 0 0 0 2px var(--bad)
 }
 
-/* Feedback + progreso */
 .feedback{font-size:1rem; margin:.5rem 0 0}
 .feedback.ok{color:var(--ok)}
 .feedback.bad{color:var(--bad)}
 .acciones{margin-top:.8rem}
-.progresoBar{height:10px; background:#333; border-radius:999px; overflow:hidden; margin:.6rem 0}
-.progresoBar>div{height:100%; background:var(--accent); width:0%}
+
+.progresoBar{height:10px; background:var(--opt-border); border-radius:999px; overflow:hidden; margin:.6rem 0}
+.progresoBar>div{height:100%; background:var(--progress); width:0%}
+
 .estado{margin-top:.6rem}
 .estado p{margin:.2rem 0}
 .muted{color:var(--muted)}
-.sep{border:none; border-top:1px solid #2a2a2a; margin: .6rem 0}
+.sep{border:none; border-top:1px solid var(--border); margin: .6rem 0}
 
 /* Modal y botón de ayuda */
 .fixed-top-right{position:fixed; right:12px; top:12px; z-index:10}
@@ -108,7 +134,7 @@ select{
 .modal-card{
   max-width:min(820px, 100% - 2*var(--space));
   margin:5vh auto; background:var(--card); color:var(--fg);
-  padding:var(--space); border-radius:12px; border:1px solid #2a2a2a
+  padding:var(--space); border-radius:12px; border:1px solid var(--border)
 }
 .mt0{margin-top:0}
 .modal-actions{display:flex; gap:8px; justify-content:flex-end}
@@ -116,20 +142,46 @@ select{
 /* Tamaño muy grande opcional */
 .muy-grande{font-size: calc(var(--fs-base) * 1.2)}
 
-/* Desktop: controles más ordenados y botón de ayuda integrado al header */
+/* Desktop: controles ordenados y botón de ayuda integrado */
 @media (min-width: 900px){
   .controles{
-    grid-template-columns: 1fr 1fr;     /* 2 columnas: Label | Select (se repite por fila) */
+    grid-template-columns: 1fr 1fr;
     max-width: 680px;
     margin-inline: auto;
   }
-  /* los botones en una fila aparte, alineados a la izquierda */
   .controles .btn{ justify-self: start }
-  /* el botón de ayuda deja de estar flotado y se integra arriba */
   .fixed-top-right{ position: static; float: right; margin-top: .2rem }
 }
 
-/* Preferencia de reducir movimiento */
-@media (prefers-reduced-motion: reduce){
-  *{scroll-behavior:auto}
+/* Skip link accesible */
+.skip{position:absolute;left:-9999px;top:auto}
+.skip:focus{left:12px;top:12px;background:var(--btn-primary-bg);color:var(--btn-primary-fg);
+            padding:8px 10px;border-radius:8px;z-index:1000}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
+
+/* Footer mini tipo banner (alto contraste y tamaño chico) */
+.mini-credit{
+  margin-top:.5rem;
+  padding:.35rem 0;
+  border-top:1px solid var(--border);
+  font-size:.35em;                /* tamaño */
+  line-height:1.25;
+  color:var(--muted);
 }
+.mini-credit p{ margin:0 }
+.mini-credit a{
+  color:inherit;                   /* hereda tono tenue */
+  text-decoration:underline;
+  font-weight:300;
+}
+.mini-label{ font-weight:700; color:var(--fg) }  /* la palabra “Créditos y aviso:” un poco más visible */
+
+/* En pantallas medianas/grandes, tiende a quedar en una sola línea */
+@media (min-width: 300px){
+  .mini-credit{ font-size:.78em; }
+}
+
+/* Asegurar buen contraste del link en modo claro */
+[data-theme="light"] .mini-credit a{ color:#0f172a }

@@ -1,16 +1,27 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="Juego cognitivo accesible para personas mayores: categorización e inhibición, sin datos personales."/>
   <meta name="theme-color" content="#0b0b0b"/>
   <title>¿Cuál es el intruso? — Juegos Cognitivos</title>
-  <link rel="stylesheet" href="./styles.css"/>
-  <link rel="stylesheet" href="./styles.css?v=2025-08-24">
-<script src="./app.js?v=2025-08-24" defer></script>
 
+  <!-- Anticaché: cambiá el número/fecha cuando actualices estilos -->
+  <link rel="stylesheet" href="./styles.css?v=2025-08-25">
 </head>
 <body>
+  <!-- Skip link: aparece al enfocar con Tab y salta directo al juego -->
+  <a href="#juego" class="skip">Saltar directamente al juego</a>
+  <style>
+    .skip{position:absolute;left:-9999px;top:auto}
+    .skip:focus{left:12px;top:12px;background:#ffd54a;color:#000;
+                padding:8px 10px;border-radius:8px;z-index:1000}
+  </style>
+
+<button id="themeToggle" class="btn secundario" type="button" aria-pressed="false">
+  🌙 Oscuro
+</button>
   <!-- Botón + modal “¿Por qué este juego?” -->
   <button id="aboutBtn" class="btn secundario fixed-top-right" aria-haspopup="dialog">
     ¿Por qué este juego?
@@ -79,6 +90,22 @@
     </section>
   </main>
 
-  <script src="./app.js" defer></script>
+  <!-- Anticaché también en el script -->
+  <script src="./app.js?v=2025-08-25" defer></script>
 </body>
+
+<footer class="mini-credit" role="contentinfo" aria-label="Créditos y aviso">
+  <p>
+    <strong class="mini-label">Créditos y aviso:</strong>
+    Desarrollado originalmente para
+    <a href="https://falltem.org/" target="_blank" rel="noopener noreferrer">FALLTEM</a>
+    • Código abierto (MIT)
+    • Uso libre por otras ONG
+    • Actividad lúdica; no es práctica médica
+    • Sin recolección de datos personales por defecto
+    • Integraciones adicionales: responsabilidad de cada organización
+  </p>
+</footer>
+
+
 </html>

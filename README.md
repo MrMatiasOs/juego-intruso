@@ -49,5 +49,23 @@ Para publicar, usá GitHub Pages (branch `main`, carpeta `/root`).
 ## Licencia
 Este proyecto se distribuye bajo licencia **MIT** (ver `LICENSE.txt`).
 
-## Créditos
-- Agradecimientos: personas mayores que colaboraron en las pruebas y feedback.
+## Créditos, reutilización y aviso
+
+Este software fue desarrollado originalmente para su uso por **FALLTEM**  
+Sitio: https://falltem.org/
+
+**Reutilización por otras ONG:**  
+El código se publica con **Licencia MIT** (ver `LICENSE`). Esto significa que cualquier organización (incluidas ONG) puede **usar, copiar, modificar y redistribuir** el software, incluso con fines comerciales, **siempre** que conserve el aviso de copyright y el texto de la licencia.
+
+**Atribución sugerida (no obligatoria):**  
+“Basado en el proyecto *Juegos Cognitivos* (MIT), desarrollado originalmente para [FALLTEM](https://falltem.org/).”
+
+**Marcas y logotipos:**  
+Los nombres, marcas y logotipos de **FALLTEM** son propiedad de sus titulares. Su uso **no** está autorizado por esta licencia. Para emplearlos en materiales propios, solicitar permiso previo.
+
+**Descargo de responsabilidad (uso y alcance):**  
+- Esta es una **actividad lúdica de estimulación cognitiva**; **no** constituye práctica médica, diagnóstico ni tratamiento.  
+- El software se provee **“TAL CUAL”**, sin garantías de ningún tipo (ver `LICENSE`). El uso es **bajo exclusiva responsabilidad** de cada organización y de sus usuarios.  
+- Por diseño, este proyecto **no recolecta datos personales**. Si su organización agrega formularios, analítica u otros servicios, ustedes serán responsables de cumplir con la normativa aplicable (p. ej., AAIP/Ley 25.326, GDPR, etc.).  
+- Se recomienda mantener criterios de **accesibilidad** (tipografías legibles, alto contraste, navegación por teclado) y evaluar la pertinencia de cada actividad para su población objetivo.
+
