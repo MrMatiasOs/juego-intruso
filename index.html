@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="description" content="Juego cognitivo accesible para personas mayores: categorización e inhibición, sin datos personales."/>
   <meta name="theme-color" content="#0b0b0b"/>
+  <meta name="color-scheme" content="dark light"/>
+
+  <!-- Seguridad -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Open Graph / Social -->
   <meta property="og:title" content="¿Cuál es el intruso? — FALLTEM">
@@ -12,31 +18,17 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mrmatiasos.github.io/juego-intruso/">
   <meta property="og:site_name" content="FALLTEM — Juegos Cognitivos">
-  <!-- (Opcional) si tenés una imagen: <meta property="og:image" content="https://.../og-image.jpg"> -->
-
-  <!-- Twitter cards (opcional) -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="¿Cuál es el intruso? — FALLTEM">
-  <meta name="twitter:description" content="Juego cognitivo accesible: categorización e inhibición, sin datos personales.">
 
   <title>¿Cuál es el intruso? — Juegos Cognitivos</title>
 
-  <!-- Fuente opcional (Nunito). Si no querés usar Google Fonts, podés quitar estas líneas. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Anticaché: cambiá el número cuando actualices -->
-  <link rel="stylesheet" href="./styles.css?v=2025-08-25-2">
+  <!-- Estilos (sin inline para cumplir CSP) -->
+  <link rel="stylesheet" href="./styles.css?v=sec4">
 </head>
+
 <body>
   <!-- Skip link: aparece al enfocar con Tab y salta directo al juego -->
   <a href="#juego" class="skip">Saltar directamente al juego</a>
-  <style>
-    .skip{position:absolute;left:-9999px;top:auto}
-    .skip:focus{left:12px;top:12px;background:var(--btn-primary-bg);color:var(--btn-primary-fg);
-                padding:8px 10px;border-radius:8px;z-index:1000}
-  </style>
+  
 
   <!-- Botón + modal “¿Por qué este juego?” -->
   <button id="aboutBtn" class="btn secundario fixed-top-right" aria-haspopup="dialog">
@@ -124,6 +116,7 @@
   </main>
 
   <!-- Anticaché también en el script -->
-  <script src="./app.js?v=2025-08-25-2" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=sec8">
+<script src="./app.js?v=sec8" defer></script>
 </body>
 </html>

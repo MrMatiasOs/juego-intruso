@@ -221,3 +221,9 @@ html.muy-grande body{
   margin: 0 auto;
   padding: var(--space);
 }
+/* Skip link accesible (sin inline para cumplir CSP) */
+.skip{position:absolute;left:-9999px;top:auto}
+.skip:focus{
+  left:12px;top:12px;background:var(--btn-primary-bg);color:var(--btn-primary-fg);
+  padding:8px 10px;border-radius:8px;z-index:1000
+}
