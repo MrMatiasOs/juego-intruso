@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ------- Catálogo ampliado (26 categorías, 10 ítems c/u aprox.) -------
+  // ------- Catálogo ampliado (26 categorías) -------
   const CAT = {
     "Frutas": ["manzana","pera","naranja","banana","uva","limón","frutilla","sandía","melón","durazno"],
     "Verduras": ["zanahoria","tomate","lechuga","cebolla","papa","zapallo","pepino","berenjena","espinaca","brócoli"],
@@ -31,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ------- Estado y refs -------
   let rondasTotales = 8, ronda = 0, aciertos = 0, nOpc = 4, bar;
-  let categoriaActual = null;
-  let ultimaCategoria = null; // evitar repetir la misma categoría seguida
+  let categoriaActual = null, ultimaCategoria = null;
 
   const juegoEl = document.getElementById('juego');
   const progresoEl = document.getElementById('progreso');
@@ -46,16 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const selOpc = document.getElementById('opciones');
   const selTam = document.getElementById('tamano');
 
+  // Tema / modal
+  const themeBtn   = document.getElementById('themeToggle');
+  const metaTheme  = document.querySelector('meta[name="theme-color"]');
+  const aboutBtn   = document.getElementById('aboutBtn');
+  const aboutModal = document.getElementById('aboutModal');
+  const aboutClose = document.getElementById('aboutClose');
+
   // ------- Utilidades -------
   const barajar = (arr)=>{ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; };
-
-  // elegir categoría evitando una o varias excluidas
   const elegirCategoria = (excluir = [])=>{
     const excl = Array.isArray(excluir) ? excluir : [excluir];
     const keys = Object.keys(CAT).filter(k=> !excl.includes(k));
     return keys[Math.floor(Math.random()*keys.length)];
   };
-
   const sample = (arr,k)=>{ const c=[...arr]; barajar(c); return c.slice(0,k); };
 
   function actualizar(){
@@ -67,9 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function construirRonda(){
-    // Evitar repetir categoría de la ronda anterior
     categoriaActual = elegirCategoria(ultimaCategoria ? [ultimaCategoria] : []);
-    const otra = elegirCategoria([categoriaActual]); // intruso de otra categoría
+    const otra = elegirCategoria([categoriaActual]);
 
     const correctas = sample(CAT[categoriaActual], Math.max(2, nOpc-1));
     const intruso = sample(CAT[otra], 1)[0];
@@ -79,15 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
       {txt:intruso, ok:true, catIntruso:otra}
     ]).slice(0,nOpc);
 
-    // asegurar que el intruso esté presente
     if(!opciones.some(o=>o.ok)){
       opciones[0] = {txt:intruso, ok:true, catIntruso:otra};
       barajar(opciones);
     }
 
-    // guardar para la próxima ronda
     ultimaCategoria = categoriaActual;
-
     return opciones;
   }
 
@@ -100,9 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="tarjeta" role="group" aria-labelledby="enunciado">
         <div class="progresoBar" aria-hidden="true"><div></div></div>
         <p id="enunciado" class="pregunta">🧠 ¿Qué palabra <strong>no</strong> pertenece al grupo?</p>
+
         <div class="opciones" id="ops"></div>
-        <p id="fb" class="feedback" aria-live="polite"></p>
-        <div class="acciones"><button id="next" class="btn principal" disabled>Siguiente</button></div>
+
+        <!-- Feedback accesible: se anuncia en lector -->
+        <p id="fb" class="feedback" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+
+        <div class="acciones">
+          <button id="next" class="btn principal" disabled aria-disabled="true">Siguiente</button>
+        </div>
       </div>
     `;
     bar = juegoEl.querySelector('.progresoBar>div'); actualizar();
@@ -130,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const fb=document.getElementById('fb');
       fb.className="feedback";
       fb.textContent = `Pista: categoría del grupo = “${categoriaActual}”.`;
+      fb.focus(); // anunciar pista
     };
   }
 
@@ -149,7 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
       fb.textContent=`✘ Casi. La categoría del grupo es “${categoriaActual}”.`;
     }
 
-    next.disabled = false; next.focus();
+    // anunciar feedback
+    fb.focus();
+
+    next.disabled = false;
+    next.setAttribute('aria-disabled','false');
+    next.focus();
     next.onclick = ()=>{ ronda++; actualizar(); renderPregunta(); };
   }
 
@@ -174,8 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function comenzar(){
     rondasTotales = +selRondas.value;
     nOpc = +selOpc.value;
-    ronda = 0; aciertos = 0;
-    ultimaCategoria = null; // reset para nueva partida
+
+    // guardar preferencias por si no tocaron los selects
+    try{
+      localStorage.setItem('intruso_rondas', selRondas.value);
+      localStorage.setItem('intruso_opciones', selOpc.value);
+    }catch{}
+
+    ronda = 0; aciertos = 0; ultimaCategoria = null;
     btnReiniciar.hidden = true;
     btnComenzar.hidden = true;
     btnPista.hidden = false;
@@ -191,52 +208,65 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   selTam.addEventListener('change', aplicarTam);
 
-  // ------- Preferencias locales (opcionales) -------
+  // Guardar preferencias al cambiar selects
+  selRondas.addEventListener('change', ()=>{
+    try{ localStorage.setItem('intruso_rondas', selRondas.value); }catch{}
+  });
+  selOpc.addEventListener('change', ()=>{
+    try{ localStorage.setItem('intruso_opciones', selOpc.value); }catch{}
+  });
+
+  // ------- Restaurar preferencias -------
   try{
-    const pref = localStorage.getItem('intruso_tamano');
-    if(pref){ selTam.value = pref; aplicarTam(); }
+    const prefTam = localStorage.getItem('intruso_tamano');
+    if(prefTam){ selTam.value = prefTam; aplicarTam(); }
+
+    const sR = localStorage.getItem('intruso_rondas');
+    if (sR) selRondas.value = sR;
+
+    const sO = localStorage.getItem('intruso_opciones');
+    if (sO) selOpc.value = sO;
   }catch{}
 
   actualizar();
 
-  // ------- Modal “Acerca de” (si lo tenés en el HTML) -------
-  const aboutBtn   = document.getElementById('aboutBtn');
-  const aboutModal = document.getElementById('aboutModal');
-  const aboutClose = document.getElementById('aboutClose');
-  function openAbout(){ aboutModal?.setAttribute('aria-hidden','false'); aboutClose?.focus(); }
-  function closeAbout(){ aboutModal?.setAttribute('aria-hidden','true'); }
+  // ------- Modal “Acerca de” -------
+  function openAbout(){
+    aboutModal?.setAttribute('aria-hidden','false');
+    aboutClose?.focus();
+  }
+  function closeAbout(){
+    aboutModal?.setAttribute('aria-hidden','true');
+  }
   aboutBtn?.addEventListener('click', openAbout);
   aboutClose?.addEventListener('click', closeAbout);
   aboutModal?.addEventListener('click', (e)=>{ if(e.target===aboutModal) closeAbout(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAbout(); });
-});
 
-// ---------- Tema claro/oscuro ----------
-const themeBtn   = document.getElementById('themeToggle');
-const metaTheme  = document.querySelector('meta[name="theme-color"]');
-
-function applyTheme(mode){
-  document.documentElement.setAttribute('data-theme', mode);
-  if(themeBtn){
-    const isDark = (mode === 'dark');
-    themeBtn.setAttribute('aria-pressed', String(isDark));
-    themeBtn.textContent = isDark ? '🌙 Oscuro' : '🌞 Claro';
+  // ------- Tema claro/oscuro (etiqueta = acción) -------
+  function applyTheme(mode){
+    document.documentElement.setAttribute('data-theme', mode);
+    if(themeBtn){
+      const isDark = (mode === 'dark');
+      themeBtn.setAttribute('aria-pressed', String(isDark));
+      themeBtn.textContent = isDark ? '🌞 Cambiar a claro' : '🌙 Cambiar a oscuro';
+    }
+    if(metaTheme){ metaTheme.setAttribute('content', mode==='dark' ? '#0b0b0b' : '#ffffff'); }
   }
-  if(metaTheme){ metaTheme.setAttribute('content', mode==='dark' ? '#0b0b0b' : '#ffffff'); }
-}
 
-(function initTheme(){
-  let mode = 'dark';
-  try{
-    mode = localStorage.getItem('theme') ||
-           (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  }catch{}
-  applyTheme(mode);
-})();
+  (function initTheme(){
+    let mode = 'dark';
+    try{
+      mode = localStorage.getItem('theme')
+        || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    }catch{}
+    applyTheme(mode);
+  })();
 
-themeBtn?.addEventListener('click', ()=>{
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  const next = current === 'dark' ? 'light' : 'dark';
-  try{ localStorage.setItem('theme', next); }catch{}
-  applyTheme(next);
+  themeBtn?.addEventListener('click', ()=>{
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    try{ localStorage.setItem('theme', next); }catch{}
+    applyTheme(next);
+  });
 });
