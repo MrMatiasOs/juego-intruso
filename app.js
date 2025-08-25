@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function aplicarTam(){
-    document.body.classList.toggle('muy-grande', selTam.value === 'muy-grande');
+    document.documentElement.classList.toggle('muy-grande', selTam.value === 'muy-grande');
     try{ localStorage.setItem('intruso_tamano', selTam.value); }catch{}
   }
 

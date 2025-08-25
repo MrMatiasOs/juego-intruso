@@ -144,8 +144,13 @@ select{
 .modal-actions{display:flex; gap:8px; justify-content:flex-end}
 
 /* Tamaño muy grande opcional */
-.muy-grande{font-size: calc(var(--fs-base) * 1.2)}
+/* Escala global para rem (de 16px → 18px aprox.) */
+html.muy-grande { font-size: 125%; }  /* 16 * 1.125 = 18px */
 
+/* Sube un poco la base que usa el <body> (más legible) */
+html.muy-grande body{
+  --fs-base: clamp(19px, 1.2vw + 14px, 24px);
+}
 /* Desktop: controles ordenados y botón de ayuda integrado */
 @media (min-width: 900px){
   .controles{
