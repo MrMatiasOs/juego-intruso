@@ -7,28 +7,30 @@
   <meta name="theme-color" content="#0b0b0b"/>
   <meta name="color-scheme" content="dark light"/>
 
-  <!-- Seguridad -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <!-- Seguridad (funciona en MAMP y en GitHub Pages) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self';
+                 img-src 'self' data:; connect-src 'self'; object-src 'none';
+                 base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
 
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-
-  <!-- Open Graph / Social -->
+  <!-- Open Graph / Social (sin imagen por ahora) -->
   <meta property="og:title" content="¿Cuál es el intruso? — FALLTEM">
   <meta property="og:description" content="Juego cognitivo accesible: categorización e inhibición, sin datos personales.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mrmatiasos.github.io/juego-intruso/">
   <meta property="og:site_name" content="FALLTEM — Juegos Cognitivos">
+  <meta name="twitter:card" content="summary">
 
   <title>¿Cuál es el intruso? — Juegos Cognitivos</title>
 
   <!-- Estilos (sin inline para cumplir CSP) -->
-  <link rel="stylesheet" href="./styles.css?v=sec4">
+  <link rel="stylesheet" href="./styles.css?v=sec9">
 </head>
 
 <body>
-  <!-- Skip link: aparece al enfocar con Tab y salta directo al juego -->
+  <!-- Accesibilidad: aparece con Tab y salta directo al juego (estilos en styles.css) -->
   <a href="#juego" class="skip">Saltar directamente al juego</a>
-  
 
   <!-- Botón + modal “¿Por qué este juego?” -->
   <button id="aboutBtn" class="btn secundario fixed-top-right" aria-haspopup="dialog">
@@ -85,7 +87,7 @@
           <option value="muy-grande">Muy grande</option>
         </select>
 
-        <!-- Botón de tema: el texto lo ajusta app.js en applyTheme() para mostrar la ACCIÓN -->
+        <!-- Botón de tema: el texto lo ajusta app.js (muestra la ACCIÓN) -->
         <button id="themeToggle" class="btn secundario" type="button" aria-pressed="false">Cambiar tema</button>
 
         <button id="btnComenzar" class="btn principal">Comenzar</button>
@@ -115,8 +117,9 @@
     </footer>
   </main>
 
-  <!-- Anticaché también en el script -->
-  <link rel="stylesheet" href="./styles.css?v=sec8">
-<script src="./app.js?v=sec8" defer></script>
+  <noscript><p style="margin:1rem">Este juego necesita JavaScript para funcionar.</p></noscript>
+
+  <!-- Script (defer; subí la versión cuando actualices) -->
+  <script src="./app.js?v=sec9" defer></script>
 </body>
 </html>
