@@ -4,31 +4,40 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="description" content="Juego cognitivo accesible para personas mayores: categorización e inhibición, sin datos personales."/>
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#0b0b0b"/>
+
+  <!-- Open Graph / Social -->
   <meta property="og:title" content="¿Cuál es el intruso? — FALLTEM">
   <meta property="og:description" content="Juego cognitivo accesible: categorización e inhibición, sin datos personales.">
-  <meta property="og:type" content="website"> 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mrmatiasos.github.io/juego-intruso/">
+  <meta property="og:site_name" content="FALLTEM — Juegos Cognitivos">
+  <!-- (Opcional) si tenés una imagen: <meta property="og:image" content="https://.../og-image.jpg"> -->
+
+  <!-- Twitter cards (opcional) -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="¿Cuál es el intruso? — FALLTEM">
+  <meta name="twitter:description" content="Juego cognitivo accesible: categorización e inhibición, sin datos personales.">
 
   <title>¿Cuál es el intruso? — Juegos Cognitivos</title>
 
-  <!-- Anticaché: cambiá el número/fecha cuando actualices estilos -->
-  <link rel="stylesheet" href="./styles.css?v=2025-08-25">
+  <!-- Fuente opcional (Nunito). Si no querés usar Google Fonts, podés quitar estas líneas. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Anticaché: cambiá el número cuando actualices -->
+  <link rel="stylesheet" href="./styles.css?v=2025-08-25-2">
 </head>
 <body>
   <!-- Skip link: aparece al enfocar con Tab y salta directo al juego -->
   <a href="#juego" class="skip">Saltar directamente al juego</a>
   <style>
     .skip{position:absolute;left:-9999px;top:auto}
-    .skip:focus{left:12px;top:12px;background:#ffd54a;color:#000;
+    .skip:focus{left:12px;top:12px;background:var(--btn-primary-bg);color:var(--btn-primary-fg);
                 padding:8px 10px;border-radius:8px;z-index:1000}
   </style>
 
-<button id="themeToggle" class="btn secundario" type="button">🌙 Cambiar a oscuro</button>
-
-</button>
   <!-- Botón + modal “¿Por qué este juego?” -->
   <button id="aboutBtn" class="btn secundario fixed-top-right" aria-haspopup="dialog">
     ¿Por qué este juego?
@@ -61,7 +70,7 @@
   <main class="wrap" role="main" aria-labelledby="titulo">
     <header class="header">
       <h1 id="titulo">¿Cuál es el intruso?</h1>
-      <p class="intro">Elige el elemento que <strong>no pertenece</strong> al grupo. Sin límite de tiempo.</p>
+      <p class="intro">Elegí el elemento que <strong>no pertenece</strong> al grupo. Sin límite de tiempo.</p>
 
       <section class="controles" aria-label="Controles del juego">
         <label for="rondas">Rondas:</label>
@@ -84,6 +93,9 @@
           <option value="muy-grande">Muy grande</option>
         </select>
 
+        <!-- Botón de tema: el texto lo ajusta app.js en applyTheme() para mostrar la ACCIÓN -->
+        <button id="themeToggle" class="btn secundario" type="button" aria-pressed="false">Cambiar tema</button>
+
         <button id="btnComenzar" class="btn principal">Comenzar</button>
         <button id="btnReiniciar" class="btn secundario" hidden>Volver a jugar</button>
         <button id="btnPista" class="btn info" hidden>Mostrar pista</button>
@@ -95,25 +107,23 @@
     <section id="estado" class="estado" aria-live="polite">
       <p>Progreso: <span id="progreso">0/0</span> · Aciertos: <span id="aciertos">0</span></p>
     </section>
+
+    <!-- Footer mini (crédito + aviso) -->
+    <footer class="mini-credit" role="contentinfo" aria-label="Créditos y aviso">
+      <p>
+        <strong class="mini-label">Créditos y aviso:</strong>
+        Desarrollado originalmente para
+        <a href="https://falltem.org/" target="_blank" rel="noopener noreferrer">FALLTEM</a>
+        • Código abierto (MIT)
+        • Uso libre por otras ONG
+        • Actividad lúdica; no es práctica médica
+        • Sin recolección de datos personales por defecto
+        • Integraciones adicionales: responsabilidad de cada organización
+      </p>
+    </footer>
   </main>
 
   <!-- Anticaché también en el script -->
-  <link rel="stylesheet" href="./styles.css?v=5">
-<script src="./app.js?v=5" defer></script>
+  <script src="./app.js?v=2025-08-25-2" defer></script>
 </body>
-
-<footer class="mini-credit" role="contentinfo" aria-label="Créditos y aviso">
-  <p>
-    <strong class="mini-label">Créditos y aviso:</strong>
-    Desarrollado originalmente para
-    <a href="https://falltem.org/" target="_blank" rel="noopener noreferrer">FALLTEM</a>
-    • Código abierto (MIT)
-    • Uso libre por otras ONG
-    • Actividad lúdica; no es práctica médica
-    • Sin recolección de datos personales por defecto
-    • Integraciones adicionales: responsabilidad de cada organización
-  </p>
-</footer>
-
-
 </html>
