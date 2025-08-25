@@ -1,54 +1,58 @@
-/* ======== Tema y contraste accesible ======== */
+/* ===== FALLTEM: tema accesible + marca ===== */
 :root{
-  color-scheme: light dark;            /* deja que el SO sugiera, pero mandamos con data-theme */
+  color-scheme: light dark;
   --fs-base: clamp(16px, 1.1vw + 12px, 19px);
   --space: clamp(10px, 1vw + 6px, 16px);
 
-  /* Dark (por defecto) */
+  /* Tipografía */
+  --font: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Neutros Dark (por defecto) */
   --bg:#0b0b0b; --fg:#f5f5f5; --muted:#cfcfcf;
   --card:#171717; --border:#2a2a2a;
   --opt-bg:#222; --opt-border:#333;
 
-  /* Botones (fondo claro para alto contraste interno) */
-  --btn-primary-bg:#ffd54a;  --btn-primary-fg:#000;    /* amarillo accesible */
-  --btn-sec-bg:#7fd1b9;      --btn-sec-fg:#000;        /* teal claro */
-  --btn-info-bg:#60a5fa;     --btn-info-fg:#000;       /* azul claro */
+  /* Colores FALLTEM (aprox) */
+  --brand-green:#95D36A;   /* primario */
+  --brand-teal:#42B7D4;    /* secundario */
+  --brand-orange:#E7A357;  /* info/acento */
 
-  /* Estados/feedback (altamente contrastados) */
-  --ok:#34d399;   /* verde claro sobre fondo oscuro */
-  --bad:#f87171;  /* rojo claro sobre fondo oscuro */
+  /* Botones (alto contraste interno en dark) */
+  --btn-primary-bg: var(--brand-green);  --btn-primary-fg:#0a0a0a;
+  --btn-sec-bg:     var(--brand-teal);   --btn-sec-fg:#0a0a0a;
+  --btn-info-bg:    var(--brand-orange); --btn-info-fg:#0a0a0a;
 
-  /* Progreso y foco */
-  --progress:#ffd54a;
-  --focus-color:#ffd54a;     /* visible en dark */
+  /* Estados/feedback y foco */
+  --ok:#34d399;    /* verde claro legible en dark */
+  --bad:#f87171;   /* rojo claro legible en dark */
+  --progress: var(--brand-green);
+  --focus-color: var(--brand-teal);
 }
 
-/* Light theme overrides: alto contraste en claro */
+/* Light: fondo blanco, texto oscuro; botones con contraste AA */
 [data-theme="light"]{
   --bg:#ffffff; --fg:#111111; --muted:#374151;
   --card:#ffffff; --border:#dddddd;
   --opt-bg:#ffffff; --opt-border:#cfcfcf;
 
-  /* Botones: mismo esquema, contrastan en claro también */
-  --btn-primary-bg:#ffd54a;  --btn-primary-fg:#111;
-  --btn-sec-bg:#14b8a6;      --btn-sec-fg:#fff;   /* teal 500 con texto blanco */
-  --btn-info-bg:#2563eb;     --btn-info-fg:#fff;  /* azul 600 con texto blanco */
+  /* Para AA, oscurecemos secundario/info en claro y texto blanco */
+  --btn-primary-bg: var(--brand-green);  --btn-primary-fg:#0a0a0a;
+  --btn-sec-bg:#1098ad;   --btn-sec-fg:#ffffff;   /* teal más oscuro = mejor contraste */
+  --btn-info-bg:#2563eb;  --btn-info-fg:#ffffff;  /* azul 600 = AA */
 
-  /* Feedback: tonos oscuros para legibilidad en blanco */
-  --ok:#047857;   /* emerald-800 */
-  --bad:#b91c1c;  /* red-700 */
-
-  --progress:#f59e0b;        /* amber-500 visible en claro */
-  --focus-color:#1d4ed8;     /* azul fuerte para outline en claro */
+  --ok:#166534;    /* verde oscuro en claro */
+  --bad:#b91c1c;   /* rojo oscuro en claro */
+  --progress:#86c658;
+  --focus-color:#1d4ed8;  /* outline visible en claro */
 }
 
-/* ======== Base ======== */
+/* ===== Base ===== */
 *{box-sizing:border-box}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
 body{
   margin:0; background:var(--bg); color:var(--fg);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-family: var(--font);
   font-size:var(--fs-base); line-height:1.5;
   padding-bottom: calc(env(safe-area-inset-bottom, 0) + var(--space));
   -webkit-tap-highlight-color: transparent;
@@ -161,27 +165,27 @@ select{
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
 
-/* Footer mini tipo banner (alto contraste y tamaño chico) */
+/* Footer mini tipo banner (discreto y legible) */
 .mini-credit{
   margin-top:.5rem;
   padding:.35rem 0;
   border-top:1px solid var(--border);
-  font-size:.35em;                /* tamaño */
+  font-size:.78em;                /* chico pero accesible */
   line-height:1.25;
   color:var(--muted);
 }
 .mini-credit p{ margin:0 }
 .mini-credit a{
-  color:inherit;                   /* hereda tono tenue */
+  color:inherit;
   text-decoration:underline;
-  font-weight:300;
+  font-weight:600;
 }
-.mini-label{ font-weight:700; color:var(--fg) }  /* la palabra “Créditos y aviso:” un poco más visible */
+.mini-label{ font-weight:700; color:var(--fg) }
 
-/* En pantallas medianas/grandes, tiende a quedar en una sola línea */
-@media (min-width: 300px){
-  .mini-credit{ font-size:.78em; }
+/* Ajuste leve en desktop */
+@media (min-width: 900px){
+  .mini-credit{ font-size:.75em; }
 }
 
-/* Asegurar buen contraste del link en modo claro */
+/* En claro, asegurar buen contraste del link */
 [data-theme="light"] .mini-credit a{ color:#0f172a }
